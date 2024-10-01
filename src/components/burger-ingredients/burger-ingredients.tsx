@@ -3,6 +3,8 @@ import { useInView } from 'react-intersection-observer';
 
 import { TTabMode } from '@utils-types';
 import { BurgerIngredientsUI } from '../ui/burger-ingredients';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchIngredients } from '../../slices';
 
 export const BurgerIngredients: FC = () => {
   /** TODO: взять переменные из стора */
@@ -47,14 +49,25 @@ export const BurgerIngredients: FC = () => {
       titleSaucesRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  return null;
+  // return null;
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchIngredients());
+  }, []);
+
+  const state = useSelector((state) => state);
+  const ingredients = useSelector((state) => state.ingredients);
+
+  console.log('+++s', state);
 
   return (
     <BurgerIngredientsUI
       currentTab={currentTab}
-      buns={buns}
-      mains={mains}
-      sauces={sauces}
+      buns={ingredients.data.filter((el) => el.type === 'bun')}
+      mains={ingredients.data.filter((el) => el.type === 'main')}
+      sauces={ingredients.data.filter((el) => el.type === 'sauce')}
       titleBunRef={titleBunRef}
       titleMainRef={titleMainRef}
       titleSaucesRef={titleSaucesRef}
