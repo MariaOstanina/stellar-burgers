@@ -8,6 +8,7 @@ const checkResponse = <T>(res: Response): Promise<T> =>
 
 type TServerResponse<T> = {
   success: boolean;
+  message?: string;
 } & T;
 
 type TRefreshResponse = TServerResponse<{
@@ -75,7 +76,9 @@ export const getIngredientsApi = () =>
   fetch(`${URL}/ingredients`)
     .then((res) => checkResponse<TIngredientsResponse>(res))
     .then((data) => {
-      if (data?.success) return data.data;
+      if (data?.success) {
+        return data.data;
+      }
       return Promise.reject(data);
     });
 

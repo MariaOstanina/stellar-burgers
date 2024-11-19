@@ -2,16 +2,11 @@ import { useState, useRef, useEffect, FC } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 import { TTabMode } from '@utils-types';
-import { BurgerIngredientsUI } from '../ui/burger-ingredients';
-import { useSelector, useDispatch } from 'react-redux';
-import { fetchIngredients } from '../../slices';
+import { BurgerIngredientsUI } from '@ui';
+import { useSelector, useDispatch } from '@store';
+import { fetchIngredients, ingredientsDataSelector } from '@slices';
 
 export const BurgerIngredients: FC = () => {
-  /** TODO: взять переменные из стора */
-  const buns = [];
-  const mains = [];
-  const sauces = [];
-
   const [currentTab, setCurrentTab] = useState<TTabMode>('bun');
   const titleBunRef = useRef<HTMLHeadingElement>(null);
   const titleMainRef = useRef<HTMLHeadingElement>(null);
@@ -51,23 +46,16 @@ export const BurgerIngredients: FC = () => {
 
   // return null;
 
-  const dispatch = useDispatch();
+  const ingredients = useSelector(ingredientsDataSelector);
 
-  useEffect(() => {
-    dispatch(fetchIngredients());
-  }, []);
-
-  const state = useSelector((state) => state);
-  const ingredients = useSelector((state) => state.ingredients);
-
-  console.log('+++s', state);
+  if (!ingredients) return null;
 
   return (
     <BurgerIngredientsUI
       currentTab={currentTab}
-      buns={ingredients.data.filter((el) => el.type === 'bun')}
-      mains={ingredients.data.filter((el) => el.type === 'main')}
-      sauces={ingredients.data.filter((el) => el.type === 'sauce')}
+      buns={ingredients.filter((el) => el.type === 'bun')}
+      mains={ingredients.filter((el) => el.type === 'main')}
+      sauces={ingredients.filter((el) => el.type === 'sauce')}
       titleBunRef={titleBunRef}
       titleMainRef={titleMainRef}
       titleSaucesRef={titleSaucesRef}

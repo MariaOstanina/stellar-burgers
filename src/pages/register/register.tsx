@@ -1,33 +1,26 @@
 import { FC, SyntheticEvent, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from '@store';
 import { RegisterUI } from '@ui-pages';
-import { registerUserApi, TRegisterData } from '@api';
-import { registry } from '@slices';
+import { regUser, userErrorSelector } from '@slices';
 
 export const Register: FC = () => {
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const userError = useSelector(userErrorSelector);
+
   const dispatch = useDispatch();
 
-  const handleSubmit = (e: SyntheticEvent) => {
+  const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
 
-    const data = new FormData(e.target);
-
-    const email = data.get('email') as string;
-    const name = data.get('name');
-    const password = data.get('password');
-
-    const formData = { email, name, password } as TRegisterData;
-
-    dispatch(registry(formData));
+    dispatch(regUser({ email, name: userName, password }));
   };
 
   return (
     <RegisterUI
-      errorText=''
+      errorText={userError || ''}
       email={email}
       userName={userName}
       password={password}
