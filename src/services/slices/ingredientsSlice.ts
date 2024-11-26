@@ -17,11 +17,7 @@ export const fetchIngredients = createAsyncThunk(
 export const ingredientsSlice = createSlice({
   name: 'ingredients',
   initialState,
-  reducers: {
-    // setIngredients: (state, action) => {
-    //   state.data = action.payload;
-    // }
-  },
+  reducers: {},
   selectors: {
     ingredientsDataSelector: (state) => state.data
   },
@@ -33,4 +29,3 @@ export const ingredientsSlice = createSlice({
 });
 
 export const { ingredientsDataSelector } = ingredientsSlice.selectors;
-export const rr = ingredientsSlice.reducer;
