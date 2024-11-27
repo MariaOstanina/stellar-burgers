@@ -1,18 +1,17 @@
 import { FC, useMemo, useState } from 'react';
-import { TConstructorIngredient, TIngredient, TOrder } from '@utils-types';
+import { TConstructorIngredient, TOrder } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
 import {
   burgerConstructorSelector,
   userIsAuthSelector,
   resetBurgerConstructor
 } from '@slices';
-import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { orderBurgerApi } from '@api';
+import store, { useSelector, useDispatch } from '@store';
 
 export const BurgerConstructor: FC = () => {
   const constructorItems = useSelector(burgerConstructorSelector);
-
   const orderIngredientsId: string[] = [];
   constructorItems.bun?._id &&
     orderIngredientsId.push(constructorItems.bun?._id);

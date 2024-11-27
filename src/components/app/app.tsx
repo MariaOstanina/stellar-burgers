@@ -3,14 +3,7 @@ import '../../index.css';
 import styles from './app.module.css';
 
 import { AppHeader, Modal, OrderInfo, IngredientDetails } from '@components';
-import {
-  Routes,
-  Route,
-  useParams,
-  useLocation,
-  redirect,
-  useNavigate
-} from 'react-router-dom';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 
 import {
   NotFound404,
@@ -31,6 +24,7 @@ const App = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  location.state = { background: location };
   const backgroundLocation = location.state?.background;
 
   const isAuth = useSelector(userIsAuthSelector);
@@ -50,7 +44,6 @@ const App = () => {
         <Route path='*' element={<NotFound404 />} />
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/feed' element={<Feed />} />
-
         <Route
           path='/login'
           element={
