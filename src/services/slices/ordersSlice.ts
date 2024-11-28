@@ -1,4 +1,4 @@
-import { getOrdersApi } from '@api';
+import { getOrdersApi, getOrderByNumberApi } from '@api';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { TOrder } from '@utils-types';
 
@@ -8,9 +8,11 @@ type OrdersState = {
 
 const initialState: OrdersState = { data: [] };
 
-export const fetchOrders = createAsyncThunk(
-  'fetchOrders',
-  async () => await getOrdersApi()
+export const fetchOrders = createAsyncThunk('fetchOrders', getOrdersApi);
+
+export const getOrderByNumber = createAsyncThunk(
+  'getOrderByNumber',
+  getOrderByNumberApi
 );
 
 export const ordersSlice = createSlice({
@@ -21,9 +23,13 @@ export const ordersSlice = createSlice({
     ordersDataSelector: (state) => state.data
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchOrders.fulfilled, (state, action) => {
-      state.data = action.payload;
-    });
+    builder
+      .addCase(fetchOrders.fulfilled, (state, action) => {
+        state.data = action.payload;
+      })
+      .addCase(getOrderByNumber.fulfilled, (state, action) => {
+        state.data = action.payload.orders;
+      });
   }
 });
 

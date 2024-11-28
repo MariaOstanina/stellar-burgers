@@ -5,7 +5,7 @@ export type OrderInfoUIProps = {
 };
 
 export type OrderInfoProps = {
-  onlyMy?: boolean;
+  useOrderStore?: boolean;
 };
 
 type TOrderInfo = {

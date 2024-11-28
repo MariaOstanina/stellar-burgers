@@ -24,7 +24,6 @@ const App = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  location.state = { background: location };
   const backgroundLocation = location.state?.background;
 
   const isAuth = useSelector(userIsAuthSelector);
@@ -35,12 +34,13 @@ const App = () => {
     if (!isAuth) {
       dispatch(getUser());
     }
-  }, []);
+  }, [isAuth]);
 
   return (
     <div className={styles.app}>
       <AppHeader />
-      <Routes>
+
+      <Routes location={backgroundLocation || location}>
         <Route path='*' element={<NotFound404 />} />
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/feed' element={<Feed />} />
@@ -62,9 +62,12 @@ const App = () => {
           }
         />
 
-        <Route path='/ingredients/:id' element={<ConstructorPage />} />
-        <Route path='/profile/orders/:number' element={<ProfileOrders />} />
-        <Route path='/feed/:number' element={<Feed />} />
+        <Route path='/ingredients/:id' element={<IngredientDetails />} />
+        <Route
+          path='/profile/orders/:number'
+          element={<OrderInfo useOrderStore />}
+        />
+        <Route path='/feed/:number' element={<OrderInfo useOrderStore />} />
 
         <Route path='/forgot-password' element={<ForgotPassword />} />
         <Route path='/reset-password' element={<ResetPassword />} />
@@ -105,7 +108,7 @@ const App = () => {
             path='/profile/orders/:number'
             element={
               <Modal title='Детали заказа' onClose={() => navigate(-1)}>
-                <OrderInfo onlyMy />
+                <OrderInfo useOrderStore />
               </Modal>
             }
           />
