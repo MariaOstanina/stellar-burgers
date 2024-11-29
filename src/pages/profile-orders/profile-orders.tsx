@@ -1,7 +1,6 @@
 import { fetchOrders, ordersDataSelector } from '@slices';
 import { useDispatch } from '@store';
 import { ProfileOrdersUI } from '@ui-pages';
-import { TOrder } from '@utils-types';
 import { FC, useEffect } from 'react';
 import { useSelector } from '@store';
 
@@ -12,7 +11,7 @@ export const ProfileOrders: FC = () => {
     dispatch(fetchOrders());
   }, []);
 
-  const orders: TOrder[] = useSelector(ordersDataSelector);
+  const orders = useSelector(ordersDataSelector);
 
   return <ProfileOrdersUI orders={orders} />;
 };

@@ -63,11 +63,17 @@ const App = () => {
         />
 
         <Route path='/ingredients/:id' element={<IngredientDetails />} />
+
         <Route
           path='/profile/orders/:number'
-          element={<OrderInfo useOrderStore />}
+          element={
+            <ProtectedRoute>
+              <OrderInfo />
+            </ProtectedRoute>
+          }
         />
-        <Route path='/feed/:number' element={<OrderInfo useOrderStore />} />
+
+        <Route path='/feed/:number' element={<OrderInfo />} />
 
         <Route path='/forgot-password' element={<ForgotPassword />} />
         <Route path='/reset-password' element={<ResetPassword />} />
@@ -94,9 +100,11 @@ const App = () => {
           <Route
             path='/ingredients/:id'
             element={
-              <Modal title='Детали ингредиента' onClose={() => navigate(-1)}>
-                <IngredientDetails />
-              </Modal>
+              <ProtectedRoute>
+                <Modal title='Детали ингредиента' onClose={() => navigate(-1)}>
+                  <IngredientDetails />
+                </Modal>
+              </ProtectedRoute>
             }
           />
         </Routes>
@@ -108,7 +116,7 @@ const App = () => {
             path='/profile/orders/:number'
             element={
               <Modal title='Детали заказа' onClose={() => navigate(-1)}>
-                <OrderInfo useOrderStore />
+                <OrderInfo />
               </Modal>
             }
           />

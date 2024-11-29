@@ -1,17 +1,13 @@
 import {
   loginUserApi,
   registerUserApi,
-  TRegisterData,
-  TLoginData,
-  fetchWithRefresh,
   getUserApi,
   logoutApi,
   updateUserApi
 } from '@api';
 import { TUser } from '@utils-types';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getCookie, setCookie, deleteCookie } from '../../utils/cookie';
-import { RootState } from '@store';
+import { setCookie, deleteCookie } from '../../utils/cookie';
 
 export type TUserState = {
   isAuth: boolean;
@@ -24,18 +20,14 @@ const initialState: TUserState = {
   isAuth: false,
   data: null,
   error: null,
-  isLoading: false
+  isLoading: true
 };
 
 export const loginUser = createAsyncThunk('loginUser', loginUserApi);
 export const regUser = createAsyncThunk('regUser', registerUserApi);
 export const logOut = createAsyncThunk('logOut', logoutApi);
 export const updateUser = createAsyncThunk('updateUser', updateUserApi);
-
-export const getUser = createAsyncThunk(
-  'getUser',
-  async () => await getUserApi()
-);
+export const getUser = createAsyncThunk('getUser', getUserApi);
 
 export const userSlice = createSlice({
   name: 'user',
@@ -68,6 +60,7 @@ export const userSlice = createSlice({
         localStorage.setItem('refreshToken', payload.refreshToken);
       })
 
+      // regUser
       .addCase(regUser.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -85,6 +78,7 @@ export const userSlice = createSlice({
         localStorage.setItem('refreshToken', payload.refreshToken);
       })
 
+      // getUser
       .addCase(getUser.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -100,6 +94,7 @@ export const userSlice = createSlice({
         state.isAuth = true;
       })
 
+      // logOut
       .addCase(logOut.pending, (state) => {
         state.isLoading = true;
       })
@@ -112,6 +107,7 @@ export const userSlice = createSlice({
         localStorage.removeItem('refreshToken');
       })
 
+      // updateUser
       .addCase(updateUser.pending, (state) => {
         state.isLoading = true;
         state.error = null;

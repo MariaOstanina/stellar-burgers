@@ -4,9 +4,13 @@ import { TOrder } from '@utils-types';
 
 type OrdersState = {
   data: TOrder[];
+  ordersByNumber: TOrder[];
 };
 
-const initialState: OrdersState = { data: [] };
+const initialState: OrdersState = {
+  data: [],
+  ordersByNumber: []
+};
 
 export const fetchOrders = createAsyncThunk('fetchOrders', getOrdersApi);
 
@@ -20,7 +24,8 @@ export const ordersSlice = createSlice({
   initialState,
   reducers: {},
   selectors: {
-    ordersDataSelector: (state) => state.data
+    ordersDataSelector: (state) => state.data,
+    ordersByNumberSelector: (state) => state.ordersByNumber
   },
   extraReducers: (builder) => {
     builder
@@ -28,9 +33,10 @@ export const ordersSlice = createSlice({
         state.data = action.payload;
       })
       .addCase(getOrderByNumber.fulfilled, (state, action) => {
-        state.data = action.payload.orders;
+        state.ordersByNumber = action.payload.orders;
       });
   }
 });
 
-export const { ordersDataSelector } = ordersSlice.selectors;
+export const { ordersDataSelector, ordersByNumberSelector } =
+  ordersSlice.selectors;

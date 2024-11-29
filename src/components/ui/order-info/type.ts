@@ -4,10 +4,6 @@ export type OrderInfoUIProps = {
   orderInfo: TOrderInfo;
 };
 
-export type OrderInfoProps = {
-  useOrderStore?: boolean;
-};
-
 type TOrderInfo = {
   ingredientsInfo: {
     [key: string]: TIngredient & { count: number };
