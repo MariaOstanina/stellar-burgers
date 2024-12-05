@@ -5,7 +5,7 @@ import { TIngredient } from '@utils-types';
 import { useDispatch, useSelector } from '@store';
 import {
   ordersByNumberSelector,
-  getOrderByNumber,
+  fetchOrderByNumber,
   ingredientsDataSelector
 } from '@slices';
 import { useParams } from 'react-router-dom';
@@ -17,7 +17,7 @@ export const OrderInfo = () => {
 
   useEffect(() => {
     if (number) {
-      dispatch(getOrderByNumber(Number(number)));
+      dispatch(fetchOrderByNumber(Number(number)));
     }
   }, [number]);
 
