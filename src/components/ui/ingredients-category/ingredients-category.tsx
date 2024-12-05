@@ -12,8 +12,9 @@ export const IngredientsCategoryUI = forwardRef<
       {title}
     </h3>
     <ul className={styles.items} ref={ref}>
-      {ingredients.map((ingredient) => (
+      {ingredients.map((ingredient, i) => (
         <BurgerIngredient
+          index={i}
           ingredient={ingredient}
           key={ingredient._id}
           count={ingredientsCounters[ingredient._id]}
