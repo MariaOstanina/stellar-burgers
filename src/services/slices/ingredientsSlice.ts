@@ -7,7 +7,7 @@ type IngredientsState = {
   data: null | TIngredient[];
 };
 
-const initialState: IngredientsState = { data: [] };
+export const ingredientsInitialState: IngredientsState = { data: [] };
 
 export const fetchIngredients = createAsyncThunk(
   'fetchIngredients',
@@ -16,7 +16,7 @@ export const fetchIngredients = createAsyncThunk(
 
 export const ingredientsSlice = createSlice({
   name: 'ingredients',
-  initialState,
+  initialState: ingredientsInitialState,
   reducers: {},
   selectors: {
     ingredientsDataSelector: (state) => state.data
@@ -29,3 +29,4 @@ export const ingredientsSlice = createSlice({
 });
 
 export const { ingredientsDataSelector } = ingredientsSlice.selectors;
+export const ingredientsSliceReducer = ingredientsSlice.reducer;

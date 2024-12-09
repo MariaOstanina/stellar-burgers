@@ -16,7 +16,7 @@ export type TUserState = {
   isLoading: boolean;
 };
 
-const initialState: TUserState = {
+export const userInitialState: TUserState = {
   isAuth: false,
   data: null,
   error: null,
@@ -31,7 +31,7 @@ export const getUser = createAsyncThunk('getUser', getUserApi);
 
 export const userSlice = createSlice({
   name: 'user',
-  initialState,
+  initialState: userInitialState,
   reducers: {},
   selectors: {
     userIsAuthSelector: (state) => state.isAuth,
@@ -66,6 +66,7 @@ export const userSlice = createSlice({
         state.error = null;
       })
       .addCase(regUser.rejected, (state, { error }) => {
+        state.isLoading = false;
         state.error = error.message as string;
         state.data = null;
       })
@@ -85,7 +86,7 @@ export const userSlice = createSlice({
       })
       .addCase(getUser.rejected, (state, { error }) => {
         state.isLoading = false;
-        // state.error = error.message as string;
+        state.error = error.message as string;
         state.isAuth = false;
       })
       .addCase(getUser.fulfilled, (state, { payload }) => {
@@ -97,6 +98,10 @@ export const userSlice = createSlice({
       // logOut
       .addCase(logOut.pending, (state) => {
         state.isLoading = true;
+      })
+      .addCase(logOut.rejected, (state, { error }) => {
+        state.isLoading = false;
+        state.error = error.message as string;
       })
       .addCase(logOut.fulfilled, (state, { payload }) => {
         state.isLoading = false;
@@ -113,6 +118,7 @@ export const userSlice = createSlice({
         state.error = null;
       })
       .addCase(updateUser.rejected, (state, { error }) => {
+        state.isLoading = false;
         state.error = error.message as string;
         state.data = null;
       })
@@ -131,3 +137,4 @@ export const {
   userErrorSelector,
   userIsLoadingSelector
 } = userSlice.selectors;
+export const userReducer = userSlice.reducer;
