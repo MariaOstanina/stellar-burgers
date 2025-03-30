@@ -47,7 +47,7 @@
 ## ⚙️ Настройка проекта
 
 1. Склонируйте репозиторий:
-   git clone https://github.com/ваш-репозиторий.git
+   git clone https://github.com/MariaOstanina/stellar-burgers.git
 2. Установите зависимости:
    npm install
 3. Добавьте переменную окружения BURGER_API_URL (пример в файле .env.example).
